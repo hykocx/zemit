@@ -116,7 +116,7 @@
   "scripts": {
     "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=node18",
     "watch": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=node18 --watch",
-    "package": "npm run build && vsce package"
+    "package": "npm run build && vsce package --baseContentUrl https://git.hyko.cx/hykocx/zemit/raw/branch/main --baseImagesUrl https://git.hyko.cx/hykocx/zemit/raw/branch/main"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

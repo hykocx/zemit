@@ -2,6 +2,8 @@
 
 Génère des messages de commit, via un modèle d'IA, directement dans VSCode.
 
+![banner](/assets/git-banner.png)
+
 ## Ce que ça fait
 
 Zemit lit le diff stagé dans ton dépôt Git et envoie le contenu à un modèle d'IA pour produire un message de commit. Le message apparaît directement dans le champ de saisie du panneau Source Control.
