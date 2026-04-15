@@ -8,8 +8,8 @@ const CONVENTIONAL_INSTRUCTION = `Based on the provided git diff, generate a con
 The commit message should:
 1. Have a short title (50-72 characters)
 2. Follow the Conventional Commits format (feat:, fix:, chore:, docs:, refactor:, test:, style:, etc.)
-3. Describe what was changed and why
-4. Be clear and informative`
+3. Be clear and informative
+4. Only include a body description if there are multiple distinct changes to explain, if the diff represents a single focused change, output the title only`
 
 const SIMPLE_INSTRUCTION = `Based on the provided git diff, generate a short and clear one-line commit message (50-72 characters).`
 
