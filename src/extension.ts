@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 async function selectModel(): Promise<void> {
-  const config = vscode.workspace.getConfiguration("aiCommit")
+  const config = vscode.workspace.getConfiguration("zemit")
 
   let models: string[]
   try {

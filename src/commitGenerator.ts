@@ -116,7 +116,7 @@ async function performGeneration(
   diff: string,
   token: vscode.CancellationToken,
 ): Promise<void> {
-  const config = vscode.workspace.getConfiguration("aiCommit")
+  const config = vscode.workspace.getConfiguration("zemit")
   const maxDiffSize = config.get<number>("maxDiffSize", 5000)
   const style = config.get<string>("commitStyle", "conventional")
 

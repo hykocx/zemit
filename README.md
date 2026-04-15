@@ -37,12 +37,12 @@ Les paramètres se trouvent dans les préférences VS Code sous **Zemit**.
 
 | Paramètre | Description | Défaut |
 |---|---|---|
-| `aiCommit.provider` | Fournisseur d'IA : `anthropic`, `openai` ou `ollama` | `anthropic` |
-| `aiCommit.apiKey` | Clé API du fournisseur (inutile pour Ollama) | _(vide)_ |
-| `aiCommit.model` | Modèle à utiliser | `claude-sonnet-4-6` |
-| `aiCommit.baseUrl` | URL de base personnalisée (ex. Ollama local) | _(vide)_ |
-| `aiCommit.commitStyle` | Style du message : `conventional` ou `simple` | `conventional` |
-| `aiCommit.maxDiffSize` | Taille maximale du diff envoyé à l'IA (en caractères) | `5000` |
+| `zemit.provider` | Fournisseur d'IA : `anthropic`, `openai` ou `ollama` | `anthropic` |
+| `zemit.apiKey` | Clé API du fournisseur (inutile pour Ollama) | _(vide)_ |
+| `zemit.model` | Modèle à utiliser | `claude-sonnet-4-6` |
+| `zemit.baseUrl` | URL de base personnalisée (ex. Ollama local) | _(vide)_ |
+| `zemit.commitStyle` | Style du message : `conventional` ou `simple` | `conventional` |
+| `zemit.maxDiffSize` | Taille maximale du diff envoyé à l'IA (en caractères) | `5000` |
 
 Pour choisir un modèle parmi ceux disponibles chez ton fournisseur, lance la commande **Zemit: Select Model** depuis la palette de commandes.
 
