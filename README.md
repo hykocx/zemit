@@ -1,6 +1,6 @@
 # Zemit
 
-Génère des messages de commit dans VSCode à partir du diff en cours, via un modèle d'IA.
+Génère des messages de commit dans VSCode, via un modèle d'IA.
 
 ## Ce que ça fait
 

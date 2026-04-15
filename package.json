@@ -2,7 +2,7 @@
   "name": "zemit",
   "version": "1.1.1",
   "displayName": "Zemit",
-  "description": "Génère des messages de commit dans VSCode à partir du diff en cours, via un modèle d'IA.",
+  "description": "Génère des messages de commit dans VSCode, via un modèle d'IA.",
   "repository": {
     "type": "git",
     "url": "https://git.hyko.cx/hykocx/zemit"
