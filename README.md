@@ -1,6 +1,6 @@
 # Zemit
 
-Génère des messages de commit dans VSCode, via un modèle d'IA.
+Génère des messages de commit, via un modèle d'IA, directement dans VSCode.
 
 ## Ce que ça fait
 
