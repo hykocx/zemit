@@ -16,8 +16,17 @@ Tu peux interrompre la génération à tout moment depuis le même panneau.
 
 ## Installation
 
+### Via le marketplace (recommandé)
+
+Recherche **Zemit** dans l'onglet Extensions de ton éditeur, ou installe directement depuis :
+
+- **VS Code** : [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=hykocx.zemit)
+- **VSCodium / Open VSX** : [open-vsx.org](https://open-vsx.org/extension/hykocx/zemit)
+
+### Via un fichier VSIX
+
 1. Télécharge le fichier `.vsix` depuis les [releases](https://git.hyko.cx/hykocx/zemit/releases).
-2. Dans VS Code, ouvre la palette de commandes (`Ctrl+Shift+P` / `Cmd+Shift+P`).
+2. Ouvre la palette de commandes (`Ctrl+Shift+P` / `Cmd+Shift+P`).
 3. Cherche **Extensions: Installer depuis un fichier VSIX...** et sélectionne le fichier téléchargé.
 
 Ou via le menu **Extensions** (icône en barre latérale) → `...` → **Installer depuis un fichier VSIX...**
