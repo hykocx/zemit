@@ -9,19 +9,19 @@ export async function generateCommitMsg(scm?: vscode.SourceControl): Promise<voi
   try {
     const gitExtension = vscode.extensions.getExtension("vscode.git")?.exports
     if (!gitExtension) {
-      throw new Error("Git extension not found")
+      throw new Error("Extension Git introuvable")
     }
 
     const git = gitExtension.getAPI(1)
     if (git.repositories.length === 0) {
-      throw new Error("No Git repositories available")
+      throw new Error("Aucun dépôt Git disponible")
     }
 
     // If invoked from SCM panel button, a specific repo is provided
     if (scm) {
       const repository = git.getRepository(scm.rootUri)
       if (!repository) {
-        throw new Error("Repository not found for the selected SCM")
+        throw new Error("Dépôt introuvable pour le SCM sélectionné")
       }
       await generateForRepository(repository)
       return
@@ -45,7 +45,7 @@ async function orchestrateMultiRepo(repos: unknown[]): Promise<void> {
   const reposWithChanges = await filterReposWithChanges(repos)
 
   if (reposWithChanges.length === 0) {
-    vscode.window.showInformationMessage("[Zemit] No changes found in any repository.")
+    vscode.window.showInformationMessage("[Zemit] Aucune modification trouvée dans les dépôts.")
     return
   }
 
@@ -62,12 +62,12 @@ async function orchestrateMultiRepo(repos: unknown[]): Promise<void> {
 
   items.unshift({
     label: "$(git-commit) All repositories with changes",
-    description: `Generate for ${reposWithChanges.length} repositories`,
+    description: `Générer pour ${reposWithChanges.length} dépôts`,
     repo: null as any,
   })
 
   const selection = await vscode.window.showQuickPick(items, {
-    placeHolder: "Select a repository to generate a commit message for",
+    placeHolder: "Sélectionner un dépôt pour générer un message de commit",
   })
 
   if (!selection) return
@@ -104,7 +104,7 @@ async function generateForRepository(repository: any): Promise<void> {
   await vscode.window.withProgress(
     {
       location: vscode.ProgressLocation.SourceControl,
-      title: `Zemit: Generating commit message for ${repoName}...`,
+      title: `Zemit : Génération du message de commit pour ${repoName}...`,
       cancellable: true,
     },
     (_progress, token) => performGeneration(repository.inputBox, diff, token),
@@ -147,7 +147,7 @@ async function performGeneration(
     }
 
     if (!inputBox.value) {
-      throw new Error("The AI returned an empty response")
+      throw new Error("L'IA n'a retourné aucune réponse")
     }
   } finally {
     await vscode.commands.executeCommand("setContext", "zemit.isGenerating", false)

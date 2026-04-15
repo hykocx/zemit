@@ -32,10 +32,10 @@ async function hasCommits(cwd: string): Promise<boolean> {
 
 export async function getGitDiff(cwd: string, stagedOnly = false): Promise<string> {
   if (!(await isGitInstalled())) {
-    throw new Error("Git is not installed")
+    throw new Error("Git n'est pas installé")
   }
   if (!(await isGitRepo(cwd))) {
-    throw new Error("Not a git repository")
+    throw new Error("Pas un dépôt git")
   }
 
   let diff = ""
@@ -72,7 +72,7 @@ export async function getGitDiff(cwd: string, stagedOnly = false): Promise<strin
   }
 
   if (!diff) {
-    throw new Error("No changes found to generate a commit message from")
+    throw new Error("Aucune modification trouvée pour générer un message de commit")
   }
 
   return diff

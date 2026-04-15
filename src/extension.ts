@@ -18,7 +18,7 @@ async function selectModel(): Promise<void> {
   let models: string[]
   try {
     models = await vscode.window.withProgress(
-      { location: vscode.ProgressLocation.Notification, title: "Zemit: Fetching available models…", cancellable: false },
+      { location: vscode.ProgressLocation.Notification, title: "Zemit : Récupération des modèles disponibles…", cancellable: false },
       () => fetchAvailableModels(config),
     )
   } catch (err) {
@@ -28,25 +28,25 @@ async function selectModel(): Promise<void> {
   }
 
   if (models.length === 0) {
-    vscode.window.showWarningMessage("[Zemit] No models found for the configured provider.")
+    vscode.window.showWarningMessage("[Zemit] Aucun modèle trouvé pour le fournisseur configuré.")
     return
   }
 
   const currentModel = config.get<string>("model", "")
   const items = models.map((id) => ({
     label: id,
-    description: id === currentModel ? "current" : undefined,
+    description: id === currentModel ? "actuel" : undefined,
   }))
 
   const picked = await vscode.window.showQuickPick(items, {
-    placeHolder: "Select a model",
+    placeHolder: "Sélectionner un modèle",
     matchOnDescription: false,
   })
 
   if (!picked) return
 
   await config.update("model", picked.label, vscode.ConfigurationTarget.Global)
-  vscode.window.showInformationMessage(`[Zemit] Model set to ${picked.label}`)
+  vscode.window.showInformationMessage(`[Zemit] Modèle défini sur ${picked.label}`)
 }
 
 export function deactivate(): void {}

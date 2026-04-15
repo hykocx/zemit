@@ -170,7 +170,7 @@ export function createProvider(config: vscode.WorkspaceConfiguration): AIProvide
   switch (provider) {
     case "anthropic": {
       const baseUrl = customBaseUrl || "https://api.anthropic.com/v1"
-      if (!apiKey) throw new Error("Anthropic API key is required. Set it in Settings → Zemit AI Commit.")
+      if (!apiKey) throw new Error("Clé API Anthropic requise. Configurez-la dans Paramètres → Zemit AI Commit.")
       return new AnthropicProvider(apiKey, model, baseUrl)
     }
     case "ollama": {
@@ -179,7 +179,7 @@ export function createProvider(config: vscode.WorkspaceConfiguration): AIProvide
     }
     default: {
       const baseUrl = customBaseUrl || "https://api.openai.com/v1"
-      if (!apiKey) throw new Error("OpenAI API key is required. Set it in Settings → Zemit AI Commit.")
+      if (!apiKey) throw new Error("Clé API OpenAI requise. Configurez-la dans Paramètres → Zemit AI Commit.")
       return new OpenAICompatibleProvider(apiKey, model, baseUrl)
     }
   }
@@ -195,7 +195,7 @@ export async function fetchAvailableModels(config: vscode.WorkspaceConfiguration
   switch (provider) {
     case "anthropic": {
       const baseUrl = customBaseUrl || "https://api.anthropic.com/v1"
-      if (!apiKey) throw new Error("Anthropic API key is required. Set it in Settings → Zemit AI Commit.")
+      if (!apiKey) throw new Error("Clé API Anthropic requise. Configurez-la dans Paramètres → Zemit AI Commit.")
       const response = await fetch(`${baseUrl}/models`, {
         headers: {
           "x-api-key": apiKey,
@@ -208,7 +208,7 @@ export async function fetchAvailableModels(config: vscode.WorkspaceConfiguration
     }
     case "openai": {
       const baseUrl = customBaseUrl || "https://api.openai.com/v1"
-      if (!apiKey) throw new Error("OpenAI API key is required. Set it in Settings → Zemit AI Commit.")
+      if (!apiKey) throw new Error("Clé API OpenAI requise. Configurez-la dans Paramètres → Zemit AI Commit.")
       const response = await fetch(`${baseUrl}/models`, {
         headers: { Authorization: `Bearer ${apiKey}` },
       })
