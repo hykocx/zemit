@@ -39,7 +39,7 @@ Les paramètres se trouvent dans les préférences VS Code sous **Zemit**.
 |---|---|---|
 | `aiCommit.provider` | Fournisseur d'IA : `anthropic`, `openai` ou `ollama` | `anthropic` |
 | `aiCommit.apiKey` | Clé API du fournisseur (inutile pour Ollama) | _(vide)_ |
-| `aiCommit.model` | Modèle à utiliser | `claude-haiku-4-5-20251001` |
+| `aiCommit.model` | Modèle à utiliser | `claude-sonnet-4-6` |
 | `aiCommit.baseUrl` | URL de base personnalisée (ex. Ollama local) | _(vide)_ |
 | `aiCommit.commitStyle` | Style du message : `conventional` ou `simple` | `conventional` |
 | `aiCommit.maxDiffSize` | Taille maximale du diff envoyé à l'IA (en caractères) | `5000` |

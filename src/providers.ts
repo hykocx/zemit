@@ -164,7 +164,7 @@ function extractAnthropicDelta(data: string): string | null {
 export function createProvider(config: vscode.WorkspaceConfiguration): AIProvider {
   const provider = config.get<string>("provider", "anthropic")
   const apiKey = config.get<string>("apiKey", "")
-  const model = config.get<string>("model", "claude-haiku-4-5-20251001")
+  const model = config.get<string>("model", "claude-sonnet-4-6")
   const customBaseUrl = config.get<string>("baseUrl", "")
 
   switch (provider) {

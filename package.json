@@ -48,7 +48,7 @@
         },
         "aiCommit.model": {
           "type": "string",
-          "default": "claude-haiku-4-5-20251001",
+          "default": "claude-sonnet-4-6",
           "markdownDescription": "Modèle à utiliser. Lance **Zemit : Sélectionner un modèle** pour parcourir les modèles disponibles du fournisseur configuré."
         },
         "aiCommit.baseUrl": {
