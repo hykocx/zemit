@@ -4,11 +4,11 @@ import { fetchAvailableModels } from "./providers"
 
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
-    vscode.commands.registerCommand("aiCommit.generateCommitMessage", (scm?: vscode.SourceControl) =>
+    vscode.commands.registerCommand("zemit.generateCommitMessage", (scm?: vscode.SourceControl) =>
       generateCommitMsg(scm),
     ),
-    vscode.commands.registerCommand("aiCommit.abortGeneration", () => abortGeneration()),
-    vscode.commands.registerCommand("aiCommit.selectModel", () => selectModel()),
+    vscode.commands.registerCommand("zemit.abortGeneration", () => abortGeneration()),
+    vscode.commands.registerCommand("zemit.selectModel", () => selectModel()),
   )
 }
 

@@ -31,7 +31,7 @@
     "configuration": {
       "title": "Zemit",
       "properties": {
-        "aiCommit.provider": {
+        "zemit.provider": {
           "type": "string",
           "enum": [
             "anthropic",
@@ -41,22 +41,22 @@
           "default": "anthropic",
           "description": "Fournisseur d'IA utilisé pour générer les messages de commit."
         },
-        "aiCommit.apiKey": {
+        "zemit.apiKey": {
           "type": "string",
           "default": "",
           "markdownDescription": "Clé API du fournisseur sélectionné. Non requise pour Ollama."
         },
-        "aiCommit.model": {
+        "zemit.model": {
           "type": "string",
           "default": "claude-sonnet-4-6",
           "markdownDescription": "Modèle à utiliser. Lance **Zemit : Sélectionner un modèle** pour parcourir les modèles disponibles du fournisseur configuré."
         },
-        "aiCommit.baseUrl": {
+        "zemit.baseUrl": {
           "type": "string",
           "default": "",
           "markdownDescription": "URL de base personnalisée (ex. `http://localhost:11434/v1` pour Ollama). Laisser vide pour utiliser la valeur par défaut du fournisseur."
         },
-        "aiCommit.commitStyle": {
+        "zemit.commitStyle": {
           "type": "string",
           "enum": [
             "conventional",
@@ -69,7 +69,7 @@
           "default": "conventional",
           "description": "Format du message de commit généré."
         },
-        "aiCommit.maxDiffSize": {
+        "zemit.maxDiffSize": {
           "type": "number",
           "default": 5000,
           "minimum": 500,
@@ -80,19 +80,19 @@
     },
     "commands": [
       {
-        "command": "aiCommit.generateCommitMessage",
+        "command": "zemit.generateCommitMessage",
         "title": "Générer un message de commit",
         "category": "Zemit",
         "icon": "$(sparkle)"
       },
       {
-        "command": "aiCommit.abortGeneration",
+        "command": "zemit.abortGeneration",
         "title": "Arrêter la génération",
         "category": "Zemit",
         "icon": "$(debug-stop)"
       },
       {
-        "command": "aiCommit.selectModel",
+        "command": "zemit.selectModel",
         "title": "Sélectionner un modèle",
         "category": "Zemit",
         "icon": "$(list-selection)"
@@ -101,14 +101,14 @@
     "menus": {
       "scm/title": [
         {
-          "command": "aiCommit.generateCommitMessage",
+          "command": "zemit.generateCommitMessage",
           "group": "navigation@1",
-          "when": "config.git.enabled && scmProvider == git && !aiCommit.isGenerating"
+          "when": "config.git.enabled && scmProvider == git && !zemit.isGenerating"
         },
         {
-          "command": "aiCommit.abortGeneration",
+          "command": "zemit.abortGeneration",
           "group": "navigation@1",
-          "when": "config.git.enabled && scmProvider == git && aiCommit.isGenerating"
+          "when": "config.git.enabled && scmProvider == git && zemit.isGenerating"
         }
       ]
     }

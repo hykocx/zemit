@@ -36,7 +36,7 @@ export async function generateCommitMsg(scm?: vscode.SourceControl): Promise<voi
 
 export function abortGeneration(): void {
   abortController?.abort()
-  vscode.commands.executeCommand("setContext", "aiCommit.isGenerating", false)
+  vscode.commands.executeCommand("setContext", "zemit.isGenerating", false)
 }
 
 // ─── Multi-repo orchestration ─────────────────────────────────────────────────
@@ -135,7 +135,7 @@ async function performGeneration(
   token.onCancellationRequested(() => abortController?.abort())
 
   try {
-    await vscode.commands.executeCommand("setContext", "aiCommit.isGenerating", true)
+    await vscode.commands.executeCommand("setContext", "zemit.isGenerating", true)
 
     const provider = createProvider(config)
     let response = ""
@@ -150,7 +150,7 @@ async function performGeneration(
       throw new Error("The AI returned an empty response")
     }
   } finally {
-    await vscode.commands.executeCommand("setContext", "aiCommit.isGenerating", false)
+    await vscode.commands.executeCommand("setContext", "zemit.isGenerating", false)
   }
 }
 
