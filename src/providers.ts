@@ -1,17 +1,5 @@
 import * as vscode from "vscode"
-
-const SYSTEM_PROMPT =
-  "You are a helpful assistant that generates informative git commit messages based on git diffs output. Skip preamble and remove all backticks surrounding the commit message."
-
-const CONVENTIONAL_INSTRUCTION = `Based on the provided git diff, generate a concise and descriptive commit message.
-
-The commit message should:
-1. Have a short title (50-72 characters)
-2. Follow the Conventional Commits format (feat:, fix:, chore:, docs:, refactor:, test:, style:, etc.)
-3. Be clear and informative
-4. Only include a body description if there are multiple distinct changes to explain, if the diff represents a single focused change, output the title only`
-
-const SIMPLE_INSTRUCTION = `Based on the provided git diff, generate a short and clear one-line commit message (50-72 characters).`
+import { SYSTEM_PROMPT, CONVENTIONAL_INSTRUCTION, SIMPLE_INSTRUCTION } from "./prompts"
 
 export interface AIProvider {
   generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string>
