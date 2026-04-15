@@ -1,0 +1,128 @@
+{
+  "name": "zemit",
+  "version": "1.1.0",
+  "displayName": "Zemit",
+  "description": "Génère des messages de commit dans VSCode à partir du diff en cours, via un modèle d'IA.",
+  "repository": {
+    "type": "git",
+    "url": "https://git.hyko.cx/hykocx/zemit"
+  },
+  "license": "GPL-3.0-only",
+  "author": "Hyko",
+  "publisher": "hykocx",
+  "icon": "images/icon.png",
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "commit",
+    "ia",
+    "anthropic",
+    "openai",
+    "ollama",
+    "conventional commits"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Zemit",
+      "properties": {
+        "aiCommit.provider": {
+          "type": "string",
+          "enum": [
+            "anthropic",
+            "openai",
+            "ollama"
+          ],
+          "default": "anthropic",
+          "description": "Fournisseur d'IA utilisé pour générer les messages de commit."
+        },
+        "aiCommit.apiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Clé API du fournisseur sélectionné. Non requise pour Ollama."
+        },
+        "aiCommit.model": {
+          "type": "string",
+          "default": "claude-haiku-4-5-20251001",
+          "markdownDescription": "Modèle à utiliser. Lance **Zemit : Sélectionner un modèle** pour parcourir les modèles disponibles du fournisseur configuré."
+        },
+        "aiCommit.baseUrl": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "URL de base personnalisée (ex. `http://localhost:11434/v1` pour Ollama). Laisser vide pour utiliser la valeur par défaut du fournisseur."
+        },
+        "aiCommit.commitStyle": {
+          "type": "string",
+          "enum": [
+            "conventional",
+            "simple"
+          ],
+          "enumDescriptions": [
+            "Format Conventional Commits (feat:, fix:, chore:, etc.)",
+            "Description courte sur une ligne"
+          ],
+          "default": "conventional",
+          "description": "Format du message de commit généré."
+        },
+        "aiCommit.maxDiffSize": {
+          "type": "number",
+          "default": 5000,
+          "minimum": 500,
+          "maximum": 50000,
+          "description": "Nombre maximum de caractères du diff git envoyés à l'IA."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "aiCommit.generateCommitMessage",
+        "title": "Générer un message de commit",
+        "category": "Zemit",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "aiCommit.abortGeneration",
+        "title": "Arrêter la génération",
+        "category": "Zemit",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "aiCommit.selectModel",
+        "title": "Sélectionner un modèle",
+        "category": "Zemit",
+        "icon": "$(list-selection)"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "aiCommit.generateCommitMessage",
+          "group": "navigation@1",
+          "when": "config.git.enabled && scmProvider == git && !aiCommit.isGenerating"
+        },
+        {
+          "command": "aiCommit.abortGeneration",
+          "group": "navigation@1",
+          "when": "config.git.enabled && scmProvider == git && aiCommit.isGenerating"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=node18",
+    "watch": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --platform=node --target=node18 --watch",
+    "package": "npm run build && vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.28.0",
+    "typescript": "^5.0.0"
+  }
+}
