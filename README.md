@@ -2,7 +2,7 @@
 
 Génère des messages de commit, via un modèle d'IA, directement dans VSCode.
 
-![banner](/assets/git-banner.png)
+![preview](/assets/preview.jpg)
 
 ## Ce que ça fait
 
