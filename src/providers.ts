@@ -1,5 +1,5 @@
 import * as vscode from "vscode"
-import { SYSTEM_PROMPT, CONVENTIONAL_INSTRUCTION, SIMPLE_INSTRUCTION } from "./prompts"
+import { SYSTEM_PROMPT, getPrompt } from "./prompts"
 
 export interface AIProvider {
   generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string>
@@ -15,7 +15,7 @@ class OpenAICompatibleProvider implements AIProvider {
   ) {}
 
   async *generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string> {
-    const instruction = style === "conventional" ? CONVENTIONAL_INSTRUCTION : SIMPLE_INSTRUCTION
+    const instruction = getPrompt(style)
     const url = `${this.baseUrl}/chat/completions`
 
     const response = await fetch(url, {
@@ -58,7 +58,7 @@ class AnthropicProvider implements AIProvider {
   ) {}
 
   async *generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string> {
-    const instruction = style === "conventional" ? CONVENTIONAL_INSTRUCTION : SIMPLE_INSTRUCTION
+    const instruction = getPrompt(style)
     const url = `${this.baseUrl}/messages`
 
     const response = await fetch(url, {

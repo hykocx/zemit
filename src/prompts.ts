@@ -1,7 +1,9 @@
+export const LATEST_PROMPT_VERSION = "zemit-v2"
+
 export const SYSTEM_PROMPT =
   "You are a git commit message generator. Output only the commit message — no explanation, no preamble, no backticks, no quotes. All messages must be written in English."
 
-export const CONVENTIONAL_INSTRUCTION = `Based on the provided git diff, generate a concise and descriptive commit message following the Conventional Commits format:
+export const ZEMIT_V1 = `Based on the provided git diff, generate a concise and descriptive commit message following the Conventional Commits format:
 
   <type>(<scope>): <short description>
 
@@ -23,4 +25,24 @@ Rules:
 - For breaking changes, add ! after the type and a BREAKING CHANGE: footer
 - Only include a body if there are multiple distinct changes to explain; for a single focused change, output the title only`
 
-export const SIMPLE_INSTRUCTION = `Based on the provided git diff, generate a short and clear one-line commit message (50-72 characters).`
+export const ZEMIT_V2 = `Generate a git commit message following Conventional Commits format:
+
+<type>(<scope>): <short description>
+
+Types: feat | fix | refactor | style | docs | test | chore | perf
+Scope: optional, affected module (e.g. auth, api, ui, config)
+Description: lowercase, imperative mood, no trailing period
+
+Body rules:
+- Single focused change → title only
+- Multiple files or distinct concerns → title + blank line + concise bullet body listing each change
+- Breaking change: add ! after type + "BREAKING CHANGE: <detail>" footer`
+
+const PROMPT_REGISTRY: Record<string, string> = {
+  "zemit-v1": ZEMIT_V1,
+  "zemit-v2": ZEMIT_V2,
+}
+
+export function getPrompt(version: string): string {
+  return PROMPT_REGISTRY[version] ?? PROMPT_REGISTRY[LATEST_PROMPT_VERSION]
+}

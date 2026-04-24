@@ -1,6 +1,7 @@
 import * as path from "path"
 import * as vscode from "vscode"
-import { getGitDiffStagedFirst } from "./git"
+import { getGitContext, getGitDiffStagedFirst } from "./git"
+import { LATEST_PROMPT_VERSION } from "./prompts"
 import { createProvider } from "./providers"
 
 let abortController: AbortController | undefined
@@ -99,7 +100,7 @@ async function filterReposWithChanges(repos: unknown[]): Promise<unknown[]> {
 async function generateForRepository(repository: any): Promise<void> {
   const repoPath = repository.rootUri.fsPath
   const repoName = repoPath.split(path.sep).pop() || "repository"
-  const diff = await getGitDiffStagedFirst(repoPath)
+  const { diff, stat } = await getGitContext(repoPath)
 
   await vscode.window.withProgress(
     {
@@ -107,26 +108,26 @@ async function generateForRepository(repository: any): Promise<void> {
       title: `Zemit : Génération du message de commit pour ${repoName}...`,
       cancellable: true,
     },
-    (_progress, token) => performGeneration(repository.inputBox, diff, token),
+    (_progress, token) => performGeneration(repository.inputBox, diff, stat, token),
   )
 }
 
 async function performGeneration(
   inputBox: any,
   diff: string,
+  stat: string,
   token: vscode.CancellationToken,
 ): Promise<void> {
   const config = vscode.workspace.getConfiguration("zemit")
   const maxDiffSize = config.get<number>("maxDiffSize", 5000)
-  const style = config.get<string>("commitStyle", "conventional")
+  const style = config.get<string>("promptVersion", LATEST_PROMPT_VERSION)
 
   const truncatedDiff =
     diff.length > maxDiffSize ? diff.substring(0, maxDiffSize) + "\n\n[Diff truncated due to size]" : diff
 
-  // Include any existing user note in the prompt
   const existingNote = inputBox.value?.trim() || ""
 
-  let prompt = truncatedDiff
+  let prompt = stat ? `## Changed files\n${stat}\n\n## Diff\n${truncatedDiff}` : truncatedDiff
   if (existingNote) {
     prompt = `Developer note (use if relevant): ${existingNote}\n\n${prompt}`
   }
