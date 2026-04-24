@@ -1,6 +1,6 @@
 {
   "name": "zemit",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "displayName": "Zemit",
   "description": "Génère des messages de commit, via un modèle d'IA, directement dans VSCode.",
   "repository": {
@@ -56,18 +56,18 @@
           "default": "",
           "markdownDescription": "URL de base personnalisée (ex. `http://localhost:11434/v1` pour Ollama). Laisser vide pour utiliser la valeur par défaut du fournisseur."
         },
-        "zemit.commitStyle": {
+        "zemit.promptVersion": {
           "type": "string",
           "enum": [
-            "conventional",
-            "simple"
+            "zemit-v1",
+            "zemit-v2"
           ],
           "enumDescriptions": [
-            "Format Conventional Commits (feat:, fix:, chore:, etc.)",
-            "Description courte sur une ligne"
+            "Zemit V1 – Format Conventional Commits classique",
+            "Zemit V2 – Conventional Commits compact avec résumé de fichiers et corps structuré"
           ],
-          "default": "conventional",
-          "description": "Format du message de commit généré."
+          "default": "zemit-v2",
+          "description": "Version du prompt utilisé pour générer le message de commit."
         },
         "zemit.maxDiffSize": {
           "type": "number",
