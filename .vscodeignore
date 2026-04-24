@@ -1,6 +1,10 @@
-src/**
-node_modules/**
+.vscode/**
+.git/**
 .gitignore
+node_modules/**
+*.vsix
+assets/**
+src/**
 tsconfig.json
-cline-main/**
 **/*.map
+package-lock.json
