@@ -6,7 +6,7 @@ Génère des messages de commit, via un modèle d'IA, directement dans VSCode.
 
 ## Ce que ça fait
 
-Zemit lit le diff stagé dans ton dépôt Git et envoie le contenu à un modèle d'IA pour produire un message de commit. Le message apparaît directement dans le champ de saisie du panneau Source Control.
+Zemit lit le diff stagé et le résumé des fichiers modifiés dans ton dépôt Git, puis envoie ce contexte à un modèle d'IA pour produire un message de commit. Le message apparaît directement dans le champ de saisie du panneau Source Control.
 
 Tu peux interrompre la génération à tout moment depuis le même panneau.
 
@@ -43,7 +43,7 @@ Les paramètres se trouvent dans les préférences VS Code sous **Zemit**.
 | `zemit.apiKey` | Clé API du fournisseur (inutile pour Ollama) | _(vide)_ |
 | `zemit.model` | Modèle à utiliser | `claude-sonnet-4-6` |
 | `zemit.baseUrl` | URL de base personnalisée (ex. Ollama local) | _(vide)_ |
-| `zemit.commitStyle` | Style du message : `conventional` ou `simple` | `conventional` |
+| `zemit.promptVersion` | Version du prompt | `zemit-v2` |
 | `zemit.maxDiffSize` | Taille maximale du diff envoyé à l'IA (en caractères) | `5000` |
 
 Pour choisir un modèle parmi ceux disponibles chez ton fournisseur, lance la commande **Zemit: Select Model** depuis la palette de commandes.
