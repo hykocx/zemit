@@ -41,16 +41,16 @@ export async function getGitDiff(cwd: string, stagedOnly = false): Promise<strin
   let diff = ""
 
   if (await hasCommits(cwd)) {
-    const { stdout: staged } = await execAsync("git --no-pager diff --staged --diff-filter=d", { cwd })
+    const { stdout: staged } = await execAsync("git --no-pager diff --staged", { cwd })
     diff = staged.trim()
 
     if (!stagedOnly && !diff) {
-      const { stdout: unstaged } = await execAsync("git --no-pager diff HEAD --diff-filter=d", { cwd })
+      const { stdout: unstaged } = await execAsync("git --no-pager diff HEAD", { cwd })
       diff = unstaged.trim()
     }
   } else {
     // First commit — no HEAD exists yet
-    const { stdout: cached } = await execAsync("git --no-pager diff --cached --diff-filter=d", { cwd })
+    const { stdout: cached } = await execAsync("git --no-pager diff --cached", { cwd })
     diff = cached.trim()
   }
 
@@ -93,7 +93,7 @@ export async function getGitContext(cwd: string): Promise<{ diff: string; stat: 
   let includeUntracked = false
 
   if (await hasCommits(cwd)) {
-    const { stdout: stagedDiff } = await execAsync("git --no-pager diff --staged --diff-filter=d", { cwd })
+    const { stdout: stagedDiff } = await execAsync("git --no-pager diff --staged", { cwd })
     diff = stagedDiff.trim()
 
     if (diff) {
@@ -101,7 +101,7 @@ export async function getGitContext(cwd: string): Promise<{ diff: string; stat: 
       stat = stagedStat.trim()
     } else {
       includeUntracked = true
-      const { stdout: allDiff } = await execAsync("git --no-pager diff HEAD --diff-filter=d", { cwd })
+      const { stdout: allDiff } = await execAsync("git --no-pager diff HEAD", { cwd })
       diff = allDiff.trim()
       const { stdout: allStat } = await execAsync("git --no-pager diff HEAD --name-status", { cwd })
       stat = allStat.trim()
@@ -109,7 +109,7 @@ export async function getGitContext(cwd: string): Promise<{ diff: string; stat: 
   } else {
     // First commit — no HEAD exists yet
     includeUntracked = true
-    const { stdout: cachedDiff } = await execAsync("git --no-pager diff --cached --diff-filter=d", { cwd })
+    const { stdout: cachedDiff } = await execAsync("git --no-pager diff --cached", { cwd })
     diff = cachedDiff.trim()
     const { stdout: cachedStat } = await execAsync("git --no-pager diff --cached --name-status", { cwd })
     stat = cachedStat.trim()
