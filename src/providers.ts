@@ -1,3 +1,4 @@
+import { spawn } from "child_process"
 import * as vscode from "vscode"
 import { SYSTEM_PROMPT, getPrompt } from "./prompts"
 
@@ -91,6 +92,69 @@ class AnthropicProvider implements AIProvider {
   }
 }
 
+// ─── Claude Code CLI ─────────────────────────────────────────────────────────
+
+class ClaudeCodeProvider implements AIProvider {
+  constructor(private readonly model: string) {}
+
+  async *generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string> {
+    const instruction = getPrompt(style)
+    const input = `<input>${instruction}\n\n${diff}</input>`
+
+    // ~/.local/bin may not be in PATH inside the VSCode extension host
+    const env = { ...process.env, PATH: `${process.env.HOME ?? ""}/.local/bin:${process.env.PATH ?? ""}` }
+
+    const proc = spawn("claude", [
+      "-p", "--output-format", "text",
+      "--model", this.model,
+      "--system-prompt", SYSTEM_PROMPT,
+    ], { env })
+
+    const onAbort = () => proc.kill()
+    signal.addEventListener("abort", onAbort, { once: true })
+
+    proc.stdin.end(input)
+
+    let stderrData = ""
+    proc.stderr.on("data", (chunk: Buffer) => { stderrData += chunk.toString() })
+
+    // When spawn fails (e.g. ENOENT), 'close' never fires — resolve via 'error' too
+    let spawnError: Error | undefined
+    const closeOrError = new Promise<number | null>((resolve) => {
+      proc.on("close", resolve)
+      proc.on("error", (err: Error) => {
+        spawnError = err
+        proc.stdout.destroy()  // Unblock the for-await below
+        resolve(null)
+      })
+    })
+
+    try {
+      for await (const chunk of proc.stdout) {
+        yield (chunk as Buffer).toString()
+      }
+    } catch {
+      // stdout may throw if destroyed due to a spawn error — handled below
+    } finally {
+      signal.removeEventListener("abort", onAbort)
+    }
+
+    await closeOrError
+
+    if (spawnError) {
+      const isNotFound = (spawnError as NodeJS.ErrnoException).code === "ENOENT"
+      throw new Error(isNotFound
+        ? "Claude Code CLI introuvable. Assurez-vous que 'claude' est installé et accessible (ex. ~/.local/bin)."
+        : `Claude Code CLI: ${spawnError.message}`)
+    }
+
+    const exitCode = await closeOrError
+    if (exitCode !== 0 && !signal.aborted) {
+      throw new Error(`Claude Code CLI error: ${stderrData || `exit code ${exitCode}`}`)
+    }
+  }
+}
+
 // ─── SSE parsing helpers ─────────────────────────────────────────────────────
 
 async function* parseSSEStream(
@@ -161,6 +225,9 @@ export function createProvider(config: vscode.WorkspaceConfiguration): AIProvide
       if (!apiKey) throw new Error("Clé API Anthropic requise. Configurez-la dans Paramètres → Zemit AI Commit.")
       return new AnthropicProvider(apiKey, model, baseUrl)
     }
+    case "claudecode": {
+      return new ClaudeCodeProvider(model)
+    }
     case "ollama": {
       const baseUrl = customBaseUrl || "http://localhost:11434/v1"
       return new OpenAICompatibleProvider("ollama", model, baseUrl)
@@ -207,6 +274,8 @@ export async function fetchAvailableModels(config: vscode.WorkspaceConfiguration
         .filter((id) => /^(gpt-|o1|o3|chatgpt-)/.test(id))
         .sort()
     }
+    case "claudecode":
+      return []
     case "ollama": {
       const baseUrl = customBaseUrl || "http://localhost:11434/v1"
       const response = await fetch(`${baseUrl}/models`)

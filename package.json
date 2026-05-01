@@ -1,6 +1,6 @@
 {
   "name": "zemit",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "displayName": "Zemit",
   "description": "Génère des messages de commit, via un modèle d'IA, directement dans VSCode.",
   "repository": {
@@ -36,7 +36,14 @@
           "enum": [
             "anthropic",
             "openai",
-            "ollama"
+            "ollama",
+            "claudecode"
+          ],
+          "enumDescriptions": [
+            "Anthropic API (clé API requise)",
+            "OpenAI API (clé API requise)",
+            "Ollama – instance locale",
+            "Claude Code CLI – installation locale, sans clé API"
           ],
           "default": "anthropic",
           "description": "Fournisseur d'IA utilisé pour générer les messages de commit."
@@ -44,7 +51,7 @@
         "zemit.apiKey": {
           "type": "string",
           "default": "",
-          "markdownDescription": "Clé API du fournisseur sélectionné. Non requise pour Ollama."
+          "markdownDescription": "Clé API du fournisseur sélectionné. Non requise pour Ollama et Claude Code."
         },
         "zemit.model": {
           "type": "string",

@@ -14,7 +14,7 @@ Tu peux interrompre la génération à tout moment depuis le même panneau.
 
 - VS Code 1.85 ou plus récent
 - Un dépôt Git avec des changements stagés
-- Une clé API pour le fournisseur choisi (non requise pour Ollama)
+- Une clé API pour le fournisseur choisi (non requise pour Ollama et Claude Code)
 
 ## Installation
 
@@ -39,8 +39,8 @@ Les paramètres se trouvent dans les préférences VS Code sous **Zemit**.
 
 | Paramètre | Description | Défaut |
 |---|---|---|
-| `zemit.provider` | Fournisseur d'IA : `anthropic`, `openai` ou `ollama` | `anthropic` |
-| `zemit.apiKey` | Clé API du fournisseur (inutile pour Ollama) | _(vide)_ |
+| `zemit.provider` | Fournisseur d'IA : `anthropic`, `openai`, `ollama` ou `claudecode` | `anthropic` |
+| `zemit.apiKey` | Clé API du fournisseur (inutile pour Ollama et Claude Code) | _(vide)_ |
 | `zemit.model` | Modèle à utiliser | `claude-sonnet-4-6` |
 | `zemit.baseUrl` | URL de base personnalisée (ex. Ollama local) | _(vide)_ |
 | `zemit.promptVersion` | Version du prompt | `zemit-v2` |
@@ -61,6 +61,18 @@ Pour arrêter une génération en cours, clique sur l'icône d'arrêt au même e
 - **Anthropic** : modèles Claude (Haiku, Sonnet, Opus)
 - **OpenAI** : modèles GPT
 - **Ollama** : modèles locaux, aucune clé requise
+- **Claude Code** : utilise le CLI `claude` installé localement, aucune clé API requise — l'authentification est gérée par Claude Code lui-même
+
+### Utiliser Claude Code
+
+Assure-toi que le CLI `claude` est installé et accessible (`~/.local/bin/claude` ou dans ton `PATH`), puis configure :
+
+```json
+"zemit.provider": "claudecode",
+"zemit.model": "claude-sonnet-4-6"
+```
+
+> Note : le provider Claude Code ne supporte pas le streaming — le message apparaît d'un coup à la fin de la génération, contrairement aux providers API.
 
 ## Développement
 
