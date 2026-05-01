@@ -2,7 +2,7 @@
 
 All notable changes to Zemit are documented here.
 
-## [Unreleased]
+## [1.1.5] - 2026-05-01
 
 ### Added
 - Claude Code CLI provider (local, no API key required)
