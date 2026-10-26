@@ -1,7 +1,7 @@
 import * as path from "path"
 import * as vscode from "vscode"
 import { getGitContext, getGitDiffStagedFirst } from "./git"
-import { LATEST_PROMPT_VERSION } from "./prompts"
+import { LATEST_PROMPT_VERSION, getPrompt } from "./prompts"
 import { createProvider } from "./providers"
 
 let abortController: AbortController | undefined
@@ -121,6 +121,7 @@ async function performGeneration(
   const config = vscode.workspace.getConfiguration("zemit")
   const maxDiffSize = config.get<number>("maxDiffSize", 5000)
   const style = config.get<string>("promptVersion", LATEST_PROMPT_VERSION)
+  const instruction = getPrompt(style, config.get<string>("customInstructions", ""))
 
   const truncatedDiff =
     diff.length > maxDiffSize ? diff.substring(0, maxDiffSize) + "\n\n[Diff truncated due to size]" : diff
@@ -141,7 +142,7 @@ async function performGeneration(
     const provider = createProvider(config)
     let response = ""
 
-    for await (const chunk of provider.generateCommitMessage(prompt, style, abortController.signal)) {
+    for await (const chunk of provider.generateCommitMessage(prompt, instruction, abortController.signal)) {
       if (token.isCancellationRequested) break
       response += chunk
       inputBox.value = cleanCommitMessage(response)

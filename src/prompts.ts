@@ -43,6 +43,8 @@ const PROMPT_REGISTRY: Record<string, string> = {
   "zemit-v2": ZEMIT_V2,
 }
 
-export function getPrompt(version: string): string {
-  return PROMPT_REGISTRY[version] ?? PROMPT_REGISTRY[LATEST_PROMPT_VERSION]
+export function getPrompt(version: string, customInstructions = ""): string {
+  const base = PROMPT_REGISTRY[version] ?? PROMPT_REGISTRY[LATEST_PROMPT_VERSION]
+  const extra = customInstructions.trim()
+  return extra ? `${base}\n\nAdditional instructions (take precedence over the rules above):\n${extra}` : base
 }

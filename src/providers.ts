@@ -1,9 +1,9 @@
 import { spawn } from "child_process"
 import * as vscode from "vscode"
-import { SYSTEM_PROMPT, getPrompt } from "./prompts"
+import { SYSTEM_PROMPT } from "./prompts"
 
 export interface AIProvider {
-  generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string>
+  generateCommitMessage(diff: string, instruction: string, signal: AbortSignal): AsyncIterable<string>
 }
 
 // ─── OpenAI / Ollama ────────────────────────────────────────────────────────
@@ -15,8 +15,7 @@ class OpenAICompatibleProvider implements AIProvider {
     private readonly baseUrl: string,
   ) {}
 
-  async *generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string> {
-    const instruction = getPrompt(style)
+  async *generateCommitMessage(diff: string, instruction: string, signal: AbortSignal): AsyncIterable<string> {
     const url = `${this.baseUrl}/chat/completions`
 
     const response = await fetch(url, {
@@ -58,8 +57,7 @@ class AnthropicProvider implements AIProvider {
     private readonly baseUrl: string,
   ) {}
 
-  async *generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string> {
-    const instruction = getPrompt(style)
+  async *generateCommitMessage(diff: string, instruction: string, signal: AbortSignal): AsyncIterable<string> {
     const url = `${this.baseUrl}/messages`
 
     const response = await fetch(url, {
@@ -97,8 +95,7 @@ class AnthropicProvider implements AIProvider {
 class ClaudeCodeProvider implements AIProvider {
   constructor(private readonly model: string) {}
 
-  async *generateCommitMessage(diff: string, style: string, signal: AbortSignal): AsyncIterable<string> {
-    const instruction = getPrompt(style)
+  async *generateCommitMessage(diff: string, instruction: string, signal: AbortSignal): AsyncIterable<string> {
     const input = `<input>${instruction}\n\n${diff}</input>`
 
     // ~/.local/bin may not be in PATH inside the VSCode extension host
@@ -275,7 +272,17 @@ export async function fetchAvailableModels(config: vscode.WorkspaceConfiguration
         .sort()
     }
     case "claudecode":
-      return []
+      // The CLI has no "list models" command. Aliases always resolve to the latest version.
+      return [
+        "fable",
+        "opus",
+        "sonnet",
+        "haiku",
+        "claude-fable-5-1",
+        "claude-opus-5-5",
+        "claude-sonnet-5-5",
+        "claude-haiku-5-5",
+      ]
     case "ollama": {
       const baseUrl = customBaseUrl || "http://localhost:11434/v1"
       const response = await fetch(`${baseUrl}/models`)

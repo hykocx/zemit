@@ -44,6 +44,7 @@ Les paramètres se trouvent dans les préférences VS Code sous **Zemit**.
 | `zemit.model` | Modèle à utiliser | `claude-sonnet-4-6` |
 | `zemit.baseUrl` | URL de base personnalisée (ex. Ollama local) | _(vide)_ |
 | `zemit.promptVersion` | Version du prompt | `zemit-v2` |
+| `zemit.customInstructions` | Instructions personnalisées ajoutées à la fin du prompt | _(vide)_ |
 | `zemit.maxDiffSize` | Taille maximale du diff envoyé à l'IA (en caractères) | `5000` |
 
 Pour choisir un modèle parmi ceux disponibles chez ton fournisseur, lance la commande **Zemit: Select Model** depuis la palette de commandes.
